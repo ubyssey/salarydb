@@ -1,0 +1,260 @@
+{% load humanize %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+    margin-top: 100px;
+    font-family: LFTEtica-Regular;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+div.chart {
+    width: 100%;
+    max-width: 560px;
+    float: right;
+}
+
+div.chart svg {
+    width: 100%;
+}
+
+.area {
+    fill: rgb(244, 244, 244);
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #DBDBDB;
+  shape-rendering: crispEdges;
+}
+
+.axis path {
+    display: none;
+}
+
+.axis {
+    font-family: "Helvetica";
+    font-size: 10px;
+}
+
+.axis text {
+    fill: #676767;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.container {
+    width: 960px;
+    margin: 0 auto;
+}
+
+.col-4, .col-6, .col-8 {
+    float: left;
+}
+
+.col-6 {
+    width: 50%;
+}
+
+.col-4 {
+    width: 33.33%;
+}
+
+.col-8 {
+    width: 66.66%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.salary-block {
+    border-radius: 5px;
+    padding: 25px 0;
+    font-family: LFTEtica-SemiBold;
+    font-size: 20px;
+    color: #FFFFFF;
+    line-height: 29px;
+    letter-spacing: 1px;
+    margin: 8px 0;
+}
+
+.salary-col {
+    padding: 0 20px;
+}
+
+.salary-expenses .col-6:first-child .salary-col {
+    padding-left: 0;
+}
+
+.salary-expenses .col-6:last-child .salary-col {
+    padding-right: 0;
+}
+
+.small-tag {
+    font-family: LFTEtica-Regular;
+    font-size: 12px;
+    color: #676767;
+    line-height: 14px;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+}
+
+.salary-block.remuneration {
+    background: #1C1C1C;
+}
+
+.salary-block.expenses {
+    background: #670000;
+}
+
+h1.name {
+    font-family: LFTEtica-SemiBold;
+    font-size: 36px;
+    color: #494949;
+    margin: 0 0 15px 0;
+}
+
+h2.position {
+    font-family: LFTEtica-Regular;
+    font-size: 18px;
+    color: #494949;
+    line-height: 22px;
+    font-weight: normal;
+    margin: 10px 0;
+}
+
+h3.dept {
+    font-family: LFTEtica-Regular;
+    font-size: 14px;
+    color: #494949;
+    line-height: 17px;
+    font-weight: normal;
+    margin: 20px 0;
+}
+
+.basic-info {
+    margin-bottom: 30px;
+}
+
+#search-field {
+    width: 100%;
+    border-radius: 4px;
+    background: #FFFFFF;
+    border: 1px solid #C8C8C8;
+    font-family: LFTEtica-Regular;
+    font-size: 18px;
+    color: #B9B9B9;
+    line-height: 22px;
+    padding: 12px;
+    position: relative;
+    z-index: 50;
+}
+
+#search-field:focus {
+    color: #000;
+}
+
+#search-field.no-bottom-corner {
+    border-radius: 4px 4px 0 0;
+}
+
+.search-bar {
+    width: 100%;
+    margin: 50px 0;
+}
+
+.search-dropdown {
+    position: absolute;
+}
+
+.ui-autocomplete {
+    list-style-type: none;
+    padding: 5px 0 0 0;
+    background: #fff;
+    border: 1px solid #C8C8C8;
+    border-radius: 0 5px;
+}
+
+.ui-autocomplete li {
+    margin: 12px;
+}
+
+.ui-menu-item a {
+    color: #000;
+    text-decoration: none;
+}
+
+.ui-menu-item a:hover {
+    color: steelblue;
+}
+
+.ui-helper-hidden-accessible {
+    display: none;
+}
+</style>
+<body>
+
+<div class="container">
+    <div class="search-bar">
+        <form id="search-form" action="{% url 'main.views.search' %}" method="GET">
+            <input id="search-field" name="q" placeholder="Search" type="text"/>
+            <div class="search-dropdown"></div>
+        </form>
+    </div>
+    <div class="employee">
+        <div class="row">
+            <div class="col-4">
+                <div class="basic-info">
+                    <h1 class="name">{{ employee.first_name }} {{ employee.last_name }}</h1>
+                    <h2 class="position">{{ employee.position }}</h2>
+                    <h3 class="dept">{{ employee.department }}</h3>
+                </div>
+                <div class="salary-expenses row">
+                    <div class="col-6">
+                        <div class="salary-col text-center">
+                            <span class="small-tag">Remuneration</span>
+                            <div class="salary-block remuneration">
+                                ${{ employee.remuneration|intcomma }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="salary-col text-center">
+                            <span class="small-tag">Expenses</span>
+                            <div class="salary-block expenses">
+                                ${{ employee.expenses|intcomma }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="chart">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var EMPLOYEE = {{ employee.remuneration }};
+</script>
+<script src="{% static "js/jquery-1.11.2.min.js" %}"></script>
+<script src="{% static "js/jquery-ui.min.js" %}"></script>
+<script src="{% static "js/search.js" %}"></script>
+<script src="{% static "js/d3.min.js" %}"></script>
+<script src="{% static "js/employee.js" %}"></script>

@@ -1,0 +1,27 @@
+{% load humanize %}
+{% load main_extras %}
+<table>
+{% for employee in results %}
+    <tr>
+        <td><strong><a href="{% url 'main.views.employee' employee|name_to_url %}">{{ employee.first_name }} {{ employee.last_name }}</a></strong></td>
+        <td>{{ employee.position.name }}</td>
+        <td>${{ employee.remuneration|intcomma }}</td>
+    </tr>
+{% endfor %}
+</table>
+{% if pages > 1 %}
+    {% if prev_page %}
+        <a href="{% url 'main.views.search' prev_page %}">Prev</a>
+    {% endif %}
+    {% for page in page_range %}
+        {% if page == cur_page %}
+            <a class="cur-page" href="{% url 'main.views.search' page %}">{{ page }}</a>
+        {% else %}
+            <a href="{% url 'main.views.search' page %}">{{ page }}</a>
+        {% endif %}
+    {% endfor %}
+    of {{ pages }}
+    {% if next_page %}
+        <a href="{% url 'main.views.search' next_page %}">Next</a>
+    {% endif %}
+{% endif %}
