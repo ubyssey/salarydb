@@ -1,6 +1,4 @@
-from django.db.models import Model, CharField, BooleanField, ForeignKey, IntegerField, OneToOneField, ManyToManyField
-
-# Create your models here.
+from django.db.models import Model, CharField, ForeignKey, IntegerField
 
 class Employee(Model):
     first_name = CharField(max_length=255)
