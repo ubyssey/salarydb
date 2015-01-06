@@ -1,3 +1,4 @@
 salarydb/production/
 .idea/
 static/
+*.pyc
