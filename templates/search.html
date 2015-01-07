@@ -1,27 +1,48 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
 {% load humanize %}
 {% load main_extras %}
-<table>
-{% for employee in results %}
-    <tr>
-        <td><strong><a href="{% url 'main.views.employee' employee|name_to_url %}">{{ employee.first_name }} {{ employee.last_name }}</a></strong></td>
-        <td>{{ employee.position.name }}</td>
-        <td>${{ employee.remuneration|intcomma }}</td>
-    </tr>
-{% endfor %}
-</table>
-{% if pages > 1 %}
-    {% if prev_page %}
-        <a href="{% url 'main.views.search' prev_page %}">Prev</a>
-    {% endif %}
-    {% for page in page_range %}
-        {% if page == cur_page %}
-            <a class="cur-page" href="{% url 'main.views.search' page %}">{{ page }}</a>
-        {% else %}
-            <a href="{% url 'main.views.search' page %}">{{ page }}</a>
-        {% endif %}
+{% block toolbar %}
+    {% include 'searchbar.html' %}
+{% endblock %}
+{% block content %}
+<div class="search-results">
+    <div class="search-headers">
+        <div class="search-header" data-order="name">Name</div>
+        <div class="search-header" data-order="position">Position</div>
+        <div class="search-header" data-order="department">Department</div>
+        <div class="search-header" data-order="salary">Salary</div>
+    </div>
+{% if results %}
+    {% for employee in results %}
+        <a class="employee-result" href="{% url 'main.views.employee' employee|name_to_url %}">
+            <div class="employee-info"><strong>{{ employee.first_name }} {{ employee.last_name }}</strong></div>
+            <div class="employee-info">{{ employee.position.name }}</div>
+            <div class="employee-info">{{ employee.department.name }}</div>
+            <div class="employee-info">${{ employee.remuneration|intcomma }}</div>
+        </a>
     {% endfor %}
-    of {{ pages }}
-    {% if next_page %}
-        <a href="{% url 'main.views.search' next_page %}">Next</a>
+    </div>
+    <div class="page-listing">
+    {% if pages > 1 %}
+        {% if prev_page %}
+            <a href="{% url 'main.views.search' prev_page %}">Prev</a>
+        {% endif %}
+        {% for page in page_range %}
+            {% if page == cur_page %}
+                <a class="cur-page" href="{% url 'main.views.search' page %}">{{ page }}</a>
+            {% else %}
+                <a href="{% url 'main.views.search' page %}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+        of {{ pages }}
+        {% if next_page %}
+            <a href="{% url 'main.views.search' next_page %}">Next</a>
+        {% endif %}
     {% endif %}
+    </div>
 {% endif %}
+{% endblock %}
+{% block scripts %}
+    <script src="{% static "js/search_results.js" %}"></script>
+{% endblock %}

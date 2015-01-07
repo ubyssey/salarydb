@@ -26,7 +26,7 @@ def make_int(value):
     value = value.replace(',', '')
     return int(value)
 
-with open('assets/../assets/salaries.csv', 'U') as salaries:
+with open('scripts/assets/salaries.csv', 'U') as salaries:
     reader = csv.reader(salaries)
     for name, position, department, remuneration, expenses in reader:
 

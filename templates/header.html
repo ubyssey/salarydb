@@ -1,5 +1,3 @@
-{% load humanize %}
-{% load staticfiles %}
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
@@ -90,6 +88,15 @@ div.chart svg {
     line-height: 29px;
     letter-spacing: 1px;
     margin: 8px 0;
+}
+
+.salary-rank {
+    font-family: LFTEtica-Regular;
+    font-size: 14px;
+    color: #676767;
+    line-height: 17px;
+    letter-spacing: 0.5px;
+    margin: 20px 0;
 }
 
 .salary-col {
@@ -205,56 +212,71 @@ h3.dept {
 .ui-helper-hidden-accessible {
     display: none;
 }
+
+div.search-results {
+    border-spacing: 0;
+    border-collapse: separate;
+    width: 100%;
+    display: table;
+}
+
+div.search-header {
+    color: grey;
+}
+
+div.search-header:hover {
+    color: black;
+    cursor: pointer;
+}
+
+div.search-results a.employee-result, div.search-headers {
+    display: table-row;
+    color: #000;
+    text-decoration: none;
+}
+
+div.search-results a.employee-result:hover, div.search-results a.employee-result:nth-child(odd):hover {
+    background: rgb(205,205,205);
+}
+
+div.search-results a.employee-result:nth-child(odd) {
+    background: rgb(239, 239, 239);
+}
+
+div.employee-info, div.search-header {
+    display: table-cell;
+    padding: 15px;
+    border: none;
+}
+
+div.page-listing {
+    margin: 25px 0;
+    text-align: center;
+    font-size: 12px;
+}
+
+div.page-listing a {
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #000;
+    border: 1px solid rgb(200,200,200);
+    border-radius: 4px;
+    height: 20px;
+    min-width: 20px;
+    line-height: 20px;
+    margin: 0 5px;
+}
+
+div.page-listing a.cur-page, div.page-listing a.cur-page:hover {
+    background: steelblue;
+    border-color: steelblue;
+    color: white;
+}
+
+div.page-listing a:hover {
+    background: rgb(239, 239, 239);
+}
+
 </style>
 <body>
-
-<div class="container">
-    <div class="search-bar">
-        <form id="search-form" action="{% url 'main.views.search' %}" method="GET">
-            <input id="search-field" name="q" placeholder="Search" type="text"/>
-            <div class="search-dropdown"></div>
-        </form>
-    </div>
-    <div class="employee">
-        <div class="row">
-            <div class="col-4">
-                <div class="basic-info">
-                    <h1 class="name">{{ employee.first_name }} {{ employee.last_name }}</h1>
-                    <h2 class="position">{{ employee.position }}</h2>
-                    <h3 class="dept">{{ employee.department }}</h3>
-                </div>
-                <div class="salary-expenses row">
-                    <div class="col-6">
-                        <div class="salary-col text-center">
-                            <span class="small-tag">Remuneration</span>
-                            <div class="salary-block remuneration">
-                                ${{ employee.remuneration|intcomma }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="salary-col text-center">
-                            <span class="small-tag">Expenses</span>
-                            <div class="salary-block expenses">
-                                ${{ employee.expenses|intcomma }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-8">
-                <div class="chart">
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-    var EMPLOYEE = {{ employee.remuneration }};
-</script>
-<script src="{% static "js/jquery-1.11.2.min.js" %}"></script>
-<script src="{% static "js/jquery-ui.min.js" %}"></script>
-<script src="{% static "js/search.js" %}"></script>
-<script src="{% static "js/d3.min.js" %}"></script>
-<script src="{% static "js/employee.js" %}"></script>

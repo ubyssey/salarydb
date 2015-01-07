@@ -6,7 +6,7 @@ from django.db.models import Q
 import json
 
 
-from .models import Employee
+from .models import Employee, Vote
 from .templatetags.main_extras import name_to_url
 
 def get_page_range(page, num_pages, count):
@@ -51,14 +51,28 @@ def employee(request, employee_name, employee=False):
 
         employee = Employee.objects.get(first_name__icontains=first_name, last_name__icontains=last_name)
 
+    rank = {
+        'overall': {},
+        'faculty': {}
+    }
+
+    rank['overall']['salary'] = Employee.objects.all().filter(remuneration__gte=employee.remuneration).order_by('-remuneration').count()
+    rank['overall']['expenses'] = Employee.objects.all().filter(expenses__gte=employee.expenses).order_by('-expenses').count()
+
+    if employee.faculty:
+        rank['faculty']['salary'] = Employee.objects.all().filter(faculty_id=employee.faculty.id, remuneration__gte=employee.remuneration).order_by('-remuneration').count()
+    else:
+        rank['faculty'] = False
+
     context = {
-        'employee': employee
+        'rank': rank,
+        'employee': employee,
+        'rating': employee.get_rating()
     }
 
     t = get_template('employee.html')
     c = RequestContext(request, context)
     return HttpResponse(t.render(c))
-
 
 
 def search(request, page=1):
@@ -115,8 +129,8 @@ def search(request, page=1):
 
     count = Employee.objects.filter(*args).count()
 
-    if count == 1:
-        return
+    if count == 0:
+        results = False
 
     num_pages = count / ITEMS_PER_PAGE
 
@@ -148,3 +162,36 @@ def api_search(request):
     results = Employee.objects.filter(*args).order_by('last_name')[:10]
 
     return HttpResponse(json.dumps(map(lambda e: e.first_name + ' ' + e.last_name, results)), content_type="application/json")
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+def api_vote(request, id):
+
+    ip = get_client_ip(request)
+
+    if ip != "127.0.0.1":
+        try:
+            Vote.objects.get(ip_address=ip)
+            return HttpResponse(json.dumps(False), content_type="application/json")
+        except Vote.DoesNotExist:
+            pass
+
+    rating = request.GET.get('rating', False)
+
+    if rating:
+        rating = int(rating)
+        employee = Employee.objects.get(id=id)
+        employee.rating = int(employee.rating) + rating
+        employee.num_ratings = int(employee.num_ratings) + 1
+        employee.save()
+
+        vote = Vote.objects.create(ip_address=ip, employee=id, rating=rating)
+        vote.save()
+
+    return HttpResponse(json.dumps(ip), content_type="application/json")
