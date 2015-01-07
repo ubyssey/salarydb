@@ -13,7 +13,26 @@
                 <div class="basic-info">
                     <h1 class="name">{{ employee.first_name }} {{ employee.last_name }}</h1>
                     <h2 class="position">{{ employee.position }}</h2>
-                    <h3 class="dept">{{ employee.department }}</h3>
+                    <h3 class="dept">{{ employee.full_department }}</h3>
+                </div>
+                <div class="rating">
+                    <div class="stars">
+                    {% for star in stars %}
+                        <i id="star-{{forloop.counter}}" data-rating="{{forloop.counter}}" class="star fa
+                        {% if star = 'full' %}
+                            fa-star full
+                        {% elif star = 'half' %}
+                            fa-star-half-o half
+                        {% else %}
+                            fa-star-o empty
+                        {% endif %}"></i>
+                    {% endfor %}
+                    </div>
+                    <div class="message">
+                    {% if employee.num_ratings < 5 %}
+                        {{ ratings_needed }} more votes needed
+                    {% endif %}
+                    </div>
                 </div>
                 <div class="salary-expenses row">
                     <div class="col-6">
@@ -23,7 +42,9 @@
                                 ${{ employee.remuneration|intcomma }}
                             </div>
                             <div class="salary-rank">{{ rank.overall.salary|ordinal }} overall</div>
-                            <div class="salary-rank">{{ rank.faculty.salary|ordinal }} in {{ employee.faculty.full_name }}</div>
+                            {% if rank.faculty.salary %}
+                            <div class="salary-rank">{{ rank.faculty.salary|ordinal }} in {{ employee.faculty.short_name }}</div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col-6">
@@ -49,7 +70,7 @@
 {% block scripts %}
 <script>
     var EMPLOYEE = {{ employee.remuneration }};
-    var RATING = {{ rating }};
+    var ID = {{ employee.id }};
 </script>
 <script src="{% static "js/d3.min.js" %}"></script>
 <script src="{% static "js/employee.js" %}"></script>

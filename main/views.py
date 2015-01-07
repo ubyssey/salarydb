@@ -5,7 +5,6 @@ from django.template import RequestContext
 from django.db.models import Q
 import json
 
-
 from .models import Employee, Vote
 from .templatetags.main_extras import name_to_url
 
@@ -64,16 +63,36 @@ def employee(request, employee_name, employee=False):
     else:
         rank['faculty'] = False
 
+    rating = employee.get_rating()
+
+    ratings_needed = 5 - employee.num_ratings
+
     context = {
         'rank': rank,
         'employee': employee,
-        'rating': employee.get_rating()
+        'rating': rating,
+        'stars': gen_stars(rating, employee.num_ratings),
+        'ratings_needed': ratings_needed,
     }
 
     t = get_template('employee.html')
     c = RequestContext(request, context)
     return HttpResponse(t.render(c))
 
+
+def gen_stars(rating, num_votes):
+    if num_votes < 5:
+        return ['empty'] * 5
+    stars = []
+    for i in range(0,5):
+        next = rating - i
+        if (next >= 1) or (next >= 0.75):
+            stars.append('full')
+        elif next >= 0.25:
+            stars.append('half')
+        else:
+            stars.append('empty')
+    return stars
 
 def search(request, page=1):
 
@@ -175,23 +194,29 @@ def api_vote(request, id):
 
     ip = get_client_ip(request)
 
-    if ip != "127.0.0.1":
-        try:
-            Vote.objects.get(ip_address=ip)
-            return HttpResponse(json.dumps(False), content_type="application/json")
-        except Vote.DoesNotExist:
-            pass
+    response = {
+        'success': False,
+        'ip': ip
+    }
+
+    votes = Vote.objects.filter(ip_address=ip, employee=id).count()
+
+    if votes > 0:
+        return HttpResponse(json.dumps(response), content_type="application/json")
 
     rating = request.GET.get('rating', False)
 
     if rating:
         rating = int(rating)
-        employee = Employee.objects.get(id=id)
-        employee.rating = int(employee.rating) + rating
-        employee.num_ratings = int(employee.num_ratings) + 1
-        employee.save()
+        if rating >= 1 and rating <= 5:
+            employee = Employee.objects.get(id=id)
+            employee.rating = int(employee.rating) + rating
+            employee.num_ratings = int(employee.num_ratings) + 1
+            employee.save()
 
-        vote = Vote.objects.create(ip_address=ip, employee=id, rating=rating)
-        vote.save()
+            vote = Vote.objects.create(ip_address=ip, employee=id, rating=rating)
+            vote.save()
 
-    return HttpResponse(json.dumps(ip), content_type="application/json")
+            response['success'] = True
+
+    return HttpResponse(json.dumps(response), content_type="application/json")

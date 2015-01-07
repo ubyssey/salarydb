@@ -18,7 +18,13 @@
         <a class="employee-result" href="{% url 'main.views.employee' employee|name_to_url %}">
             <div class="employee-info"><strong>{{ employee.first_name }} {{ employee.last_name }}</strong></div>
             <div class="employee-info">{{ employee.position.name }}</div>
-            <div class="employee-info">{{ employee.department.name }}</div>
+            <div class="employee-info">
+                {% if employee.department %}
+                    {{ employee.department.name }}
+                {% else %}
+                    {{ employee.faculty.full_name }}
+                {% endif %}
+            </div>
             <div class="employee-info">${{ employee.remuneration|intcomma }}</div>
         </a>
     {% endfor %}

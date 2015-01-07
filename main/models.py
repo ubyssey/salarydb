@@ -26,6 +26,14 @@ class Employee(Model):
         else:
             return False
 
+    def full_department(self):
+        if self.department and self.faculty:
+            return '%s - %s' % self.faculty, self.department
+        elif self.department:
+            return self.department
+        else:
+            return self.faculty
+
 
 class Salary(Model):
     year = IntegerField()
