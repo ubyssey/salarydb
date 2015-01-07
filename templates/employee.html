@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+{% load staticfiles %}
+
+{% block toolbar %}
+    {% include 'searchbar.html' %}
+{% endblock %}
+{% block content %}
+    <div class="employee">
+        <div class="row">
+            <div class="col-4">
+                <div class="basic-info">
+                    <h1 class="name">{{ employee.first_name }} {{ employee.last_name }}</h1>
+                    <h2 class="position">{{ employee.position }}</h2>
+                    <h3 class="dept">{{ employee.department }}</h3>
+                </div>
+                <div class="salary-expenses row">
+                    <div class="col-6">
+                        <div class="salary-col text-center">
+                            <span class="small-tag">Salary</span>
+                            <div class="salary-block remuneration">
+                                ${{ employee.remuneration|intcomma }}
+                            </div>
+                            <div class="salary-rank">{{ rank.overall.salary|ordinal }} overall</div>
+                            <div class="salary-rank">{{ rank.faculty.salary|ordinal }} in {{ employee.faculty.full_name }}</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="salary-col text-center">
+                            <span class="small-tag">Expenses</span>
+                            <div class="salary-block expenses">
+                                ${{ employee.expenses|intcomma }}
+                            </div>
+                            <div class="salary-rank">{{ rank.overall.expenses|ordinal }} overall</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="chart">
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    var EMPLOYEE = {{ employee.remuneration }};
+    var RATING = {{ rating }};
+</script>
+<script src="{% static "js/d3.min.js" %}"></script>
+<script src="{% static "js/employee.js" %}"></script>
+{% endblock %}
