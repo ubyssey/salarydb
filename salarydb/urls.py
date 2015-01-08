@@ -7,7 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'salarydb.views.home', name='home'),
+    url(r'^$', 'main.views.landing', name='landing'),
     # url(r'^blog/', include('blog.urls')),
     url(r'^api/search/?$', views.api_search),
     url(r'^api/vote/(\d*)/?$', views.api_vote),

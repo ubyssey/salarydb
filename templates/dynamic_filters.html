@@ -1,0 +1,12 @@
+<select data-filter="fac" data-placeholder="Filter by faculty" class="search-filter fac">
+    <option></option>
+    {% for faculty in faculties %}<option value="{{ faculty.id }}">{{ faculty.full_name }}</option>{% endfor %}
+</select>
+<select data-filter="dept" data-placeholder="Filter by department" class="search-filter dept">
+    <option></option>
+    {% for dept in departments %}<option value="{{ dept.id }}">{{ dept.name}}</option>{% endfor %}
+</select>
+<select data-filter="pos" data-placeholder="Filter by position" class="search-filter pos">
+    <option></option>
+    {% for pos in positions %}<option value="{{ pos.id }}">{{ pos.name}}</option>{% endfor %}
+</select>

@@ -1,9 +1,14 @@
 {% include 'header.html' %}
+{% load staticfiles %}
 
 <div class="container">
 {% block toolbar %}{% endblock %}
 {% block content %}{% endblock %}
 </div>
 
-{% include 'footer.html' %}
+<script src="{% static "js/jquery-1.11.2.min.js" %}"></script>
+<script src="{% static "js/jquery-ui.min.js" %}"></script>
+
 {% block scripts %}{% endblock %}
+
+{% include 'footer.html' %}

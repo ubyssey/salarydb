@@ -6,12 +6,22 @@ from django.db.models import Q
 import json
 from itertools import imap
 
-from .models import Employee, Vote
+from .models import Employee, Vote, Faculty, Department, Position
 from .templatetags.main_extras import name_to_url
+
+
+def landing(request):
+
+    context = {
+    }
+
+    t = get_template('landing.html')
+    c = RequestContext(request, context)
+    return HttpResponse(t.render(c))
 
 def get_page_range(page, num_pages, count):
 
-    all_pages = range(num_pages)[1:]
+    all_pages = range(num_pages+1)[1:]
 
     if page < count:
         return all_pages[:count]
@@ -52,7 +62,7 @@ def employee(request, first=False, last=False, employee=False):
         first_name = first
         last_name = last
 
-        employee = Employee.objects.get(first_name__icontains=first_name, last_name__icontains=last_name)
+        employee = Employee.objects.get(first_name__icontains=first_name, last_name__iexact=last_name)
 
     rank = {
         'overall': {},
@@ -98,11 +108,13 @@ def gen_stars(rating, num_votes):
             stars.append('empty')
     return stars
 
-def search(request, page=1):
+def search(request):
 
     ITEMS_PER_PAGE = 20
 
     q = request.GET.get('q', False)
+
+    page = int(request.GET.get('pg', 1))
 
     if page:
         page = int(page)
@@ -114,10 +126,10 @@ def search(request, page=1):
     start = (page - 1) * ITEMS_PER_PAGE
 
     filters = {
-        'department_id': request.GET.get('dept', False),
-        'faculty_id': request.GET.get('fac', False),
+        'department_id': int(request.GET.get('dept', False)),
+        'faculty_id': int(request.GET.get('fac', False)),
         'campus': request.GET.get('campus', False),
-        'gender': request.GET.get('gen', False),
+        'position_id': int(request.GET.get('pos', False)),
     }
 
     order = request.GET.get('order', 'remuneration')
@@ -157,6 +169,10 @@ def search(request, page=1):
 
     num_pages = count / ITEMS_PER_PAGE
 
+    faculties = Faculty.objects.only("full_name", "id")
+    departments = Department.objects.only("name", "id")
+    positions = Position.objects.only("name", "id")
+
     context = {
         'results': results,
         'q': q,
@@ -166,12 +182,15 @@ def search(request, page=1):
         'next_page': get_next_page(page, num_pages),
         'pages': num_pages,
         'page_range': get_page_range(page, num_pages, 10),
+        'faculties': faculties,
+        'departments': departments,
+        'positions': positions,
+        'filters': filters,
     }
 
     t = get_template('search.html')
     c = RequestContext(request, context)
     return HttpResponse(t.render(c))
-    #return render_to_response('article.html', context)
 
 def api_search(request):
 

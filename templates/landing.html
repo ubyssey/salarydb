@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="landing">
+        <div class="logo landing-center">
+            <img src="{% static 'img/salary_logo.png' %}" />
+            <h1>UBC Salary List</h1>
+        </div>
+        {% include 'searchbar.html' %}
+        <div class="landing-center ubyssey">
+            <p>Produced by</p><a href="http://ubyssey.ca"><img src="{% static 'img/ubyssey_logo.png' %}" alt="The Ubyssey" /></a>
+        </div>
+    </div>
+{% endblock %}

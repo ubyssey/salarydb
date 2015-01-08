@@ -3,17 +3,22 @@
 {% load humanize %}
 {% load main_extras %}
 {% block toolbar %}
-    {% include 'searchbar.html' %}
+    <div class="search-page">
+        {% include 'searchbar.html' %}
+    </div>
 {% endblock %}
 {% block content %}
+<div class="search-filters">
+{% include 'filters.html' %}
+</div>
 <div class="search-results">
+{% if results %}
     <div class="search-headers">
         <div class="search-header" data-order="name">Name</div>
         <div class="search-header" data-order="position">Position</div>
         <div class="search-header" data-order="department">Department</div>
         <div class="search-header" data-order="salary">Salary</div>
     </div>
-{% if results %}
     {% for employee in results %}
         <a class="employee-result" href="{% url 'main.views.employee' employee.url.first_name employee.url.last_name %}">
             <div class="employee-info"><strong>{{ employee.first_name }} {{ employee.last_name }}</strong></div>
@@ -32,23 +37,33 @@
     <div class="page-listing">
     {% if pages > 1 %}
         {% if prev_page %}
-            <a href="{% url 'main.views.search' prev_page %}">Prev</a>
+                <a class="page" data-pg="{{ prev_page }}" href="#">Prev</a>
         {% endif %}
         {% for page in page_range %}
             {% if page == cur_page %}
-                <a class="cur-page" href="{% url 'main.views.search' page %}">{{ page }}</a>
+                <a class="cur-page">{{ page }}</a>
             {% else %}
-                <a href="{% url 'main.views.search' page %}">{{ page }}</a>
+                <a class="page" data-pg="{{ page }}" href="#">{{ page }}</a>
             {% endif %}
         {% endfor %}
         of {{ pages }}
         {% if next_page %}
-            <a href="{% url 'main.views.search' next_page %}">Next</a>
+                <a class="page" data-pg="{{ next_page }}" href="#">Next</a>
         {% endif %}
     {% endif %}
+    </div>
+{% else %}
+    <div class="no-results">
+        <p>Sorry, no results were found.</p>
     </div>
 {% endif %}
 {% endblock %}
 {% block scripts %}
+    <script>
+        var FAC = {{ filters.faculty_id }};
+        var POS = {{ filters.position_id }};
+        var DEPT = {{ filters.department_id }};
+    </script>
+    <script src="{% static "js/query-string.js" %}"></script>
     <script src="{% static "js/search_results.js" %}"></script>
 {% endblock %}

@@ -1,11 +1,71 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <meta charset="utf-8">
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="{% static 'css/chosen.css' %}" rel="stylesheet">
 <style>
 
 body {
-    margin-top: 100px;
+    margin-top: 25px;
     font-family: LFTEtica-Regular;
+}
+
+div.landing {
+    margin-top: 100px;
+}
+
+div.landing-center {
+    margin: 35px 0;
+    text-align: center;
+}
+
+div.ubyssey {
+    line-height: 30px;
+}
+
+div.ubyssey a {
+    border: none;
+}
+
+div.ubyssey a:hover {
+    opacity: 0.5;
+}
+
+div.ubyssey img {
+    height: 30px;
+    vertical-align: middle;
+}
+
+div.ubyssey p {
+    vertical-align: middle;
+    display: inline;
+    font-family: LFTEtica-Light;
+    font-size: 16px;
+    color: #6E6E6E;
+    line-height: 22px;
+    margin-right: 10px;
+}
+
+div.logo h1 {
+    font-family: LFTEtica-Bold;
+    font-size: 38px;
+    color: #417505;
+    line-height: 54px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: inline;
+    vertical-align: middle;
+}
+
+div.logo img {
+    height: 54px;
+    width: 54px;
+    vertical-align: middle;
+    margin-right: 12px;
+}
+
+div.landing-logo {
+    text-align: center;
 }
 
 input:focus,
@@ -199,6 +259,11 @@ h3.dept {
 
 #search-field {
     width: 100%;
+    display:block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+
     border-radius: 4px;
     background: #FFFFFF;
     border: 1px solid #C8C8C8;
@@ -208,7 +273,11 @@ h3.dept {
     line-height: 22px;
     padding: 12px;
     position: relative;
-    z-index: 50;
+    z-index: 550;
+}
+
+#search-field:hover, #search-field:focus {
+    border-color: rgb(160, 160, 160);
 }
 
 #search-field:focus {
@@ -221,11 +290,11 @@ h3.dept {
 
 .search-bar {
     width: 100%;
-    margin: 50px 0;
 }
 
 .search-dropdown {
     position: absolute;
+    z-index: 500;
 }
 
 .ui-autocomplete {
@@ -257,11 +326,17 @@ h3.dept {
     display: none;
 }
 
+div.employee {
+    overflow: visible;
+    margin-top: 45px;
+}
+
 div.search-results {
     border-spacing: 0;
     border-collapse: separate;
     width: 100%;
     display: table;
+    font-size: 15px;
 }
 
 div.search-header {
@@ -294,7 +369,7 @@ div.employee-info, div.search-header {
 }
 
 div.page-listing {
-    margin: 25px 0;
+    margin: 40px 0;
     text-align: center;
     font-size: 12px;
 }
@@ -352,5 +427,53 @@ div.page-listing a:hover {
     color: grey;
 }
 
+
+.chosen-container {
+    width: 33% !important;
+}
+
+a.chosen-single {
+    padding: 15px;
+    height: auto;
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #000;
+    min-width: 20px;
+    line-height: 20px;
+}
+
+a.chosen-single, .chosen-drop {
+    border: 1px solid rgb(200,200,200);
+    border-radius: 4px;
+}
+
+.chosen-container-single .chosen-search input[type="text"] {
+    border: 1px solid #C8C8C8;
+}
+
+.chosen-drop {
+    border-top: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.chosen-container .chosen-results li {
+    padding: 10px 15px;
+}
+
+.chosen-container .chosen-results li:hover {
+    background: steelblue;
+    color: #fff;
+}
+
+.search-filter {
+    display: none;
+}
+
+.search-filters {
+    height: 46px;
+    margin: 15px 0;
+}
 </style>
 <body>
