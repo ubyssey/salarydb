@@ -15,10 +15,47 @@ button:focus {
     outline: none;
 }
 
-div.chart {
+div.charts {
     width: 100%;
     max-width: 560px;
     float: right;
+}
+
+.chart-tabs {
+    display: none;
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+    margin: 25px 0;
+}
+
+.chart-tabs li {
+    display: inline-block;
+}
+
+.chart-tabs li.ui-tabs-active a, .chart-tabs li.ui-tabs-active a:hover {
+    background: #5184B2;
+    color: #FFFFFF;
+}
+
+.chart-tabs li a:focus {
+    outline: none;
+}
+
+.chart-tabs li a:hover {
+    background: #5A5A5A;
+    color: #fff;
+}
+
+.chart-tabs li a {
+    border-radius: 2px;
+    font-family: LFTEtica-Regular;
+    font-size: 14px;
+    color: #333333;
+    line-height: 17px;
+    text-decoration: none;
+    padding: 12px 15px;
+    margin: 0 10px;
 }
 
 div.chart svg {

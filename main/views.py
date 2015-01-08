@@ -4,6 +4,7 @@ from django.template.loader import get_template
 from django.template import RequestContext
 from django.db.models import Q
 import json
+from itertools import imap
 
 from .models import Employee, Vote
 from .templatetags.main_extras import name_to_url
@@ -39,14 +40,17 @@ def get_prev_page(page):
 
     return page - 1
 
-def employee(request, employee_name, employee=False):
+def employee(request, first=False, last=False, employee=False):
 
     if not employee:
 
-        name_pieces = employee_name.split('-')
+        #name_pieces = employee_name.split('-')
 
-        first_name = ' '.join(name_pieces[:-1])
-        last_name = name_pieces[-1]
+        #first_name = ' '.join(name_pieces[:-1])
+        #last_name = name_pieces[-1]
+
+        first_name = first
+        last_name = last
 
         employee = Employee.objects.get(first_name__icontains=first_name, last_name__icontains=last_name)
 
@@ -180,7 +184,17 @@ def api_search(request):
 
     results = Employee.objects.filter(*args).order_by('last_name')[:10]
 
-    return HttpResponse(json.dumps(map(lambda e: e.first_name + ' ' + e.last_name, results)), content_type="application/json")
+    data = []
+
+    for e in results:
+        url = e.url()
+        data.append({
+            'name': e.full_name(),
+            'url': url['first_name'] + '-' + url['last_name'],
+        })
+
+
+    return HttpResponse(json.dumps(data), content_type="application/json")
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -189,6 +203,37 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+def quantify(seq, pred=None):
+    return sum(imap(pred, seq))
+
+
+def in_range(i, start, end):
+    return i >= start and i <= end
+
+def api_faculty(request, id):
+
+    interval = 10000
+
+    employees = Employee.objects.filter(faculty_id=id).values_list('remuneration', flat=True).order_by('remuneration')
+    start = int(round(employees[0] / interval) * interval)
+    end = employees[len(employees)-1]
+
+    current = start
+
+    data = {
+        'points': [],
+        'salaries': map(int, employees),
+    }
+
+    while current < end:
+        data['points'].append({
+            'x': current,
+            'y': quantify(employees, lambda i: in_range(i, current, current+interval))
+        })
+        current += interval
+
+    return HttpResponse(json.dumps(data), content_type="application/json")
 
 def api_vote(request, id):
 

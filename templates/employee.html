@@ -59,8 +59,15 @@
                 </div>
             </div>
             <div class="col-8">
-                <div class="chart">
-
+                <div class="charts">
+                    <div class="chart">
+                    </div>
+                    {% if employee.faculty %}
+                        <ul class="chart-tabs">
+                            <li><a href="#chart-overall">Overall</a></li>
+                            <li><a href="#chart-faculty">{{ employee.faculty.full_name }}</a></li>
+                        </ul>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -71,6 +78,11 @@
 <script>
     var EMPLOYEE = {{ employee.remuneration }};
     var ID = {{ employee.id }};
+    {% if employee.faculty %}
+        var FACULTY = {{ employee.faculty.id }};
+    {% else %}
+        var FACULTY = false;
+    {% endif %}
 </script>
 <script src="{% static "js/d3.min.js" %}"></script>
 <script src="{% static "js/employee.js" %}"></script>

@@ -20,6 +20,9 @@ class Employee(Model):
     def __str__(self):
         return self.last_name + ', ' + self.first_name
 
+    def full_name(self):
+        return self.first_name + ' ' + self.last_name
+
     def get_rating(self):
         if self.num_ratings > 0:
             return float(self.rating) / self.num_ratings
@@ -28,11 +31,18 @@ class Employee(Model):
 
     def full_department(self):
         if self.department and self.faculty:
-            return '%s - %s' % self.faculty, self.department
+            return "%s - %s" % (self.faculty.full_name, self.department.name)
         elif self.department:
-            return self.department
+            return self.department.name
         else:
-            return self.faculty
+            return self.faculty.full_name
+
+    def url(self):
+        first_name = self.first_name.split()
+        return {
+            'first_name': first_name[0].lower(),
+            'last_name': self.last_name.lower()
+        }
 
 
 class Salary(Model):
