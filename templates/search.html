@@ -8,21 +8,21 @@
     </div>
 {% endblock %}
 {% block content %}
-<div class="search-filters">
+<div class="search-filters padded">
 {% include 'filters.html' %}
 </div>
 <div class="search-results">
 {% if results %}
     <div class="search-headers">
         <div class="search-header" data-order="name">Name</div>
-        <div class="search-header" data-order="position">Position</div>
+        <div class="search-header position" data-order="position">Position</div>
         <div class="search-header" data-order="department">Department</div>
         <div class="search-header" data-order="salary">Salary</div>
     </div>
     {% for employee in results %}
         <a class="employee-result" href="{% url 'main.views.employee' employee.url.first_name employee.url.last_name %}">
             <div class="employee-info"><strong>{{ employee.first_name }} {{ employee.last_name }}</strong></div>
-            <div class="employee-info">{{ employee.position.name }}</div>
+            <div class="employee-info position">{{ employee.position.name }}</div>
             <div class="employee-info">
                 {% if employee.department %}
                     {{ employee.department.name }}
@@ -37,33 +37,31 @@
     <div class="page-listing">
     {% if pages > 1 %}
         {% if prev_page %}
-                <a class="page" data-pg="{{ prev_page }}" href="#">Prev</a>
+                <a class="page" href="{{ query_string }}{{ query_symbol }}pg={{ prev_page }}" ><i class="fa fa-chevron-left"></i> &nbsp; Prev</a>
         {% endif %}
+        <div class="hide-mobile page-numbers">
         {% for page in page_range %}
             {% if page == cur_page %}
                 <a class="cur-page">{{ page }}</a>
             {% else %}
-                <a class="page" data-pg="{{ page }}" href="#">{{ page }}</a>
+                <a class="page" href="{{ query_string }}{{ query_symbol }}pg={{ page }}">{{ page }}</a>
             {% endif %}
         {% endfor %}
-        of {{ pages }}
+            <div class="cur-page">
+                of {{ pages }}
+            </div>
+        </div>
+        <div class="hide-desktop page-numbers cur-page">
+            Page {{ cur_page }} of {{ pages }}
+        </div>
         {% if next_page %}
-                <a class="page" data-pg="{{ next_page }}" href="#">Next</a>
+                <a class="page" href="{{ query_string }}{{ query_symbol }}pg={{ next_page }}">Next &nbsp; <i class="fa fa-chevron-right"></i></a>
         {% endif %}
     {% endif %}
     </div>
 {% else %}
-    <div class="no-results">
-        <p>Sorry, no results were found.</p>
+    <div class="no-results padded">
+        <p>Sorry, no results found. This data shows UBC employees paid at least $75,000 for the year ending March 31, 2014.</p>
     </div>
 {% endif %}
-{% endblock %}
-{% block scripts %}
-    <script>
-        var FAC = {{ filters.faculty_id }};
-        var POS = {{ filters.position_id }};
-        var DEPT = {{ filters.department_id }};
-    </script>
-    <script src="{% static "js/query-string.js" %}"></script>
-    <script src="{% static "js/search_results.js" %}"></script>
 {% endblock %}

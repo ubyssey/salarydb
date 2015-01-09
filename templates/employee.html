@@ -7,7 +7,7 @@
     {% include 'searchbar.html' %}
 {% endblock %}
 {% block content %}
-    <div class="employee">
+    <div class="employee padded">
         <div class="row">
             <div class="col-4">
                 <div class="basic-info">
@@ -84,6 +84,7 @@
         var FACULTY = false;
     {% endif %}
 </script>
+<script src="{% static "js/fb.js" %}"></script>
 <script src="{% static "js/d3.min.js" %}"></script>
 <script src="{% static "js/employee.js" %}"></script>
 {% endblock %}

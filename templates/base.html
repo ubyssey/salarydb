@@ -1,14 +1,76 @@
 {% include 'header.html' %}
 {% load staticfiles %}
-
 <div class="container">
+{% block header %}
+    <div class="ad-block hide-mobile">
+        <div class="adslot" data-dfp="Front_leaderboard_728x90" id="div-gpt-ad-1405493472872-10" style="width:728px; height:90px;">
+        </div>
+    </div>
+    <div class="ad-block hide-desktop">
+        <div class="adslot" data-dfp="Mobile_Leaderboard_300x50" id="div-gpt-ad-1409604038885-29" style="width:300px; height:50px;">
+        </div>
+    </div>
+    <header class="padded">
+            <a href="{{ base_url }}/">
+                <div class="logo">
+                    <img src="{% static 'img/salary_logo.png' %}" alt="UBC Salary List" />
+                    <h1>UBC Salary List</h1>
+                </div>
+            </a>
+            <div class="hide-mobile ubyssey-logo">
+                <p>Produced by</p><a href="http://ubyssey.ca"><img src="{% static 'img/ubyssey_logo.png' %}" alt="The Ubyssey" /></a>
+            </div>
+    </header>
+{% endblock %}
 {% block toolbar %}{% endblock %}
 {% block content %}{% endblock %}
+{% block footer %}
+<footer class="padded">
+    <p class="left">Data provided by <a href="http://finance.ubc.ca/sites/finance.ubc.ca/files/uploads/UBC%20Consolidated%20Financial%20Statements%20March%2031%202014_0.pdf" class="no-style">UBC Finance</a>.</p>
+    <p class="right">
+        <a href="mailto:web@ubyssey.ca">Report a bug</a>  &nbsp;
+        <a href="https://github.com/ubyssey/salarydb">View the code</a>
+    </p>
+</footer>
+{% endblock %}
 </div>
 
+<script>
+    var BASE_URL = "{{ base_url }}";
+</script>
 <script src="{% static "js/jquery-1.11.2.min.js" %}"></script>
 <script src="{% static "js/jquery-ui.min.js" %}"></script>
+<script src="{% static "js/query-string.js" %}"></script>
+<script>
+    // Initialize DFP
+    var googletag = googletag || {};
+    googletag.cmd = googletag.cmd || [];
+    (function() {
+    var gads = document.createElement('script');
+    gads.async = true;
+    gads.type = 'text/javascript';
+    var useSSL = 'https:' == document.location.protocol;
+    gads.src = (useSSL ? 'https:' : 'http:') +
+    '//www.googletagservices.com/tag/js/gpt.js';
+    var node = document.getElementsByTagName('script')[0];
+    node.parentNode.insertBefore(gads, node);
+    })();
+</script>
+
+<script type="text/javascript" src="{% static 'js/dfp.js' %}"></script>
 
 {% block scripts %}{% endblock %}
+
+<script type="text/javascript">
+
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-2313592-2', 'ubyssey.ca');
+    ga('send', 'pageview');
+
+</script>
 
 {% include 'footer.html' %}

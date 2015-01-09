@@ -1,14 +1,48 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% block header %}{% endblock %}
 {% block content %}
     <div class="landing">
         <div class="logo landing-center">
-            <img src="{% static 'img/salary_logo.png' %}" />
+            <img src="{% static 'img/salary_logo.png' %}" alt="UBC Salary List" />
             <h1>UBC Salary List</h1>
         </div>
         {% include 'searchbar.html' %}
+        <div class="landing-center">
+            <div class="dropdown hide-mobile chosen-container chosen-container-single" style="width: 253px;" title="">
+                <a class="dropdown-link chosen-single chosen-default" tabindex="-1">
+                    <span>View by faculty</span>
+                    <div><b></b></div>
+                </a>
+                <div class="dropdown-results chosen-drop">
+                    <ul class="chosen-results">
+                        <li class="active-result" ><a href="search/?fac=3">Faculty of Applied Science</a></li>
+                        <li class="active-result" data-option-array-index="2"><a href="search/?fac=4">Faculty of Science</a></li>
+                        <li class="active-result" data-option-array-index="3"><a href="search/?fac=5">Faculty of Medicine</a></li>
+                        <li class="active-result" data-option-array-index="4"><a href="search/?fac=6">Faculty of Education</a></li>
+                        <li class="active-result" data-option-array-index="5"><a href="search/?fac=7">Faculty of Arts</a></li>
+                        <li class="active-result" data-option-array-index="6"><a href="search/?fac=8">Faculty of Law</a></li>
+                        <li class="active-result" data-option-array-index="7"><a href="search/?fac=9">Barber Arts and Sciences</a></li>
+                        <li class="active-result" data-option-array-index="8"><a href="search/?fac=10">Faculty of Health and Social Development</a></li>
+                        <li class="active-result" data-option-array-index="9"><a href="search/?fac=11">Faculty of Forestry</a></li>
+                        <li class="active-result" data-option-array-index="10"><a href="search/?fac=12">Faculty of Land and Food Systems</a></li>
+                        <li class="active-result" data-option-array-index="11"><a href="search/?fac=13">Faculty of Dentistry</a></li>
+                        <li class="active-result" data-option-array-index="12"><a href="search/?fac=14">Faculty of Creative and Critical Studies</a></li>
+                        <li class="active-result" data-option-array-index="13"><a href="search/?fac=15">Sauder School of Business</a></li>
+                        <li class="active-result" data-option-array-index="14"><a href="search/?fac=16">Faculty of Management</a></li>
+                        <li class="active-result" data-option-array-index="15"><a href="search/?fac=17">Faculty of Health</a></li>
+                        <li class="active-result" data-option-array-index="16"><a href="search/?fac=18">Faculty of Creative Studies</a></li>
+                        <li class="active-result" data-option-array-index="17"><a href="search/?fac=19">Faculty of Pharmaceutical Sciences</a></li>
+                    </ul>
+                </div>
+            </div>
+            <a href="{{ base_url }}/search/" class="button">
+                View full list
+            </a>
+        </div>
         <div class="landing-center ubyssey">
             <p>Produced by</p><a href="http://ubyssey.ca"><img src="{% static 'img/ubyssey_logo.png' %}" alt="The Ubyssey" /></a>
         </div>
     </div>
 {% endblock %}
+{% block footer %}{% endblock %}

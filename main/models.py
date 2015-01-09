@@ -39,8 +39,12 @@ class Employee(Model):
 
     def url(self):
         first_name = self.first_name.split()
+        if len(first_name) > 0:
+            first_name = first_name[0]
+        else:
+            first_name = self.first_name
         return {
-            'first_name': first_name[0].lower(),
+            'first_name': first_name.lower(),
             'last_name': self.last_name.lower()
         }
 

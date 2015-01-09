@@ -3,7 +3,10 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from django.template import RequestContext
 from django.db.models import Q
+from django.conf import settings
+
 import json
+from urllib import urlencode
 from itertools import imap
 
 from .models import Employee, Vote, Faculty, Department, Position
@@ -12,7 +15,14 @@ from .templatetags.main_extras import name_to_url
 
 def landing(request):
 
+    og = {
+        'type': 'website',
+    }
+
     context = {
+        'title': 'The Ubyssey - UBC Salary List',
+        'base_url': settings.BASE_URL,
+        'og': og,
     }
 
     t = get_template('landing.html')
@@ -81,7 +91,14 @@ def employee(request, first=False, last=False, employee=False):
 
     ratings_needed = 5 - employee.num_ratings
 
+    og = {
+        'type': 'ubyssey_fb:employee',
+    }
+
     context = {
+        'base_url': settings.BASE_URL,
+        'title': employee.full_name() + " - UBC Salary List",
+        'og': og,
         'rank': rank,
         'employee': employee,
         'rating': rating,
@@ -112,8 +129,6 @@ def search(request):
 
     ITEMS_PER_PAGE = 20
 
-    q = request.GET.get('q', False)
-
     page = int(request.GET.get('pg', 1))
 
     if page:
@@ -125,12 +140,36 @@ def search(request):
 
     start = (page - 1) * ITEMS_PER_PAGE
 
-    filters = {
-        'department_id': int(request.GET.get('dept', False)),
-        'faculty_id': int(request.GET.get('fac', False)),
-        'campus': request.GET.get('campus', False),
-        'position_id': int(request.GET.get('pos', False)),
-    }
+
+    q = request.GET.get('q', False)
+
+    params = dict()
+
+    args = []
+
+    if q:
+        params['q'] = q
+        words = q.split()
+        for word in words:
+            args.append(Q(first_name__icontains=word) | Q(last_name__icontains=word))
+
+    fields = ['department_id', 'faculty_id', 'position_id']
+    filters = {}
+
+    for field in fields:
+        val = request.GET.get(field, False)
+        if val:
+            args.append(Q(**{field: val}))
+            params[field] = filters[field] = val
+        else:
+            filters[field] = 0
+
+    query_string = '?' + urlencode(params)
+
+    if query_string:
+        query_symbol = '&'
+    else:
+        query_symbol = '?'
 
     order = request.GET.get('order', 'remuneration')
     dir = str(request.GET.get('dir', 'desc'))
@@ -142,25 +181,11 @@ def search(request):
 
     sort = dir+str(order)
 
-    args = []
-
-    if q:
-        words = q.split()
-        for word in words:
-            args.append(Q(first_name__icontains=word) | Q(last_name__icontains=word))
-
-    for filter in filters:
-        value = filters[filter]
-        if value:
-            kwargs = {
-                filter: value,
-            }
-            args.append(Q(**kwargs))
-
     results = Employee.objects.filter(*args).order_by(sort)[start:start+ITEMS_PER_PAGE]
 
     if len(results) == 1:
-        return redirect('main.views.employee', name_to_url(results[0]))
+        e = results[0]
+        return redirect('main.views.employee', e.url()['first_name'], e.url()['last_name'])
 
     count = Employee.objects.filter(*args).count()
 
@@ -169,11 +194,15 @@ def search(request):
 
     num_pages = count / ITEMS_PER_PAGE
 
-    faculties = Faculty.objects.only("full_name", "id")
-    departments = Department.objects.only("name", "id")
-    positions = Position.objects.only("name", "id")
+    #faculties = Faculty.objects.only("full_name", "id")
+    #departments = Department.objects.only("name", "id")
+    #positions = Position.objects.only("name", "id")
 
     context = {
+        'title': "Search results - UBC Salary List",
+        'query_symbol': query_symbol,
+        'query_string': query_string,
+        'base_url': settings.BASE_URL,
         'results': results,
         'q': q,
         'count': count,
@@ -182,9 +211,6 @@ def search(request):
         'next_page': get_next_page(page, num_pages),
         'pages': num_pages,
         'page_range': get_page_range(page, num_pages, 10),
-        'faculties': faculties,
-        'departments': departments,
-        'positions': positions,
         'filters': filters,
     }
 
@@ -245,7 +271,7 @@ def api_faculty(request, id):
         'salaries': map(int, employees),
     }
 
-    while current < end:
+    while (current - interval) < end:
         data['points'].append({
             'x': current,
             'y': quantify(employees, lambda i: in_range(i, current, current+interval))
