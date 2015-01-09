@@ -1,7 +1,11 @@
-
-
-strong {
-    font-weight: 600;
+body {
+    margin-top: 25px;
+    margin-left: 0px;
+    margin-right: 0px;
+    font-family: "lft-etica";
+    font-weight: normal;
+    font-size: 16px;
+    background: #fff;
 }
 
 header {
@@ -20,14 +24,22 @@ header .ubyssey-logo {
     float: right;
 }
 
-body {
-    margin-top: 25px;
-    margin-left: 0px;
-    margin-right: 0px;
-    font-family: "lft-etica";
-    font-weight: normal;
-    font-size: 16px;
-    background: #fff;
+header {
+    margin: 15px 0;
+}
+
+header div.logo h1 {
+    font-size: 22px;
+}
+
+header div.logo img {
+    width: 36px;
+    height: 36px;
+    margin-right: 8px;
+}
+
+strong {
+    font-weight: 600;
 }
 
 .fb-share-button, .twitter-share-button{
@@ -78,20 +90,6 @@ div.ubyssey p, .ubyssey-logo p {
     color: #6E6E6E;
     line-height: 22px;
     margin-right: 10px;
-}
-
-header {
-    margin: 15px 0;
-}
-
-header div.logo h1 {
-    font-size: 22px;
-}
-
-header div.logo img {
-    width: 36px;
-    height: 36px;
-    margin-right: 8px;
 }
 
 div.logo h1 {
