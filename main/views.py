@@ -252,7 +252,6 @@ def get_client_ip(request):
 def quantify(seq, pred=None):
     return sum(imap(pred, seq))
 
-
 def in_range(i, start, end):
     return i >= start and i <= end
 
@@ -289,10 +288,10 @@ def api_vote(request, id):
         'ip': ip
     }
 
-    votes = Vote.objects.filter(ip_address=ip, employee=id).count()
+    #votes = Vote.objects.filter(ip_address=ip, employee=id).count()
 
-    if votes > 0:
-        return HttpResponse(json.dumps(response), content_type="application/json")
+    #if votes > 0:
+    #    return HttpResponse(json.dumps(response), content_type="application/json")
 
     rating = request.GET.get('rating', False)
 
