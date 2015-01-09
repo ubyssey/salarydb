@@ -30,6 +30,12 @@ body {
     background: #fff;
 }
 
+.fb-share-button, .twitter-share-button{
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0px 8px;
+}
+
 .adslot {
     margin: 0 auto;
 }
