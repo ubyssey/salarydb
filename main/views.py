@@ -9,9 +9,9 @@ import json
 from urllib import urlencode
 from itertools import imap
 
+from helpers import *
 from .models import Employee, Vote, Faculty, Department, Position
 from .templatetags.main_extras import name_to_url
-
 
 def landing(request):
 
@@ -29,46 +29,9 @@ def landing(request):
     c = RequestContext(request, context)
     return HttpResponse(t.render(c))
 
-def get_page_range(page, num_pages, count):
-
-    all_pages = range(num_pages+1)[1:]
-
-    if page < count:
-        return all_pages[:count]
-
-    start = num_pages - count
-
-    if page > start:
-        return all_pages[start:]
-
-    start = page - (count/2)
-    end = page + (count/2)
-
-    return all_pages[start:end]
-
-def get_next_page(page, num_pages):
-
-    if page == num_pages:
-        return False
-
-    return page + 1
-
-def get_prev_page(page):
-
-    if page == 1:
-        return False
-
-    return page - 1
-
 def employee(request, first=False, last=False, employee=False):
 
     if not employee:
-
-        #name_pieces = employee_name.split('-')
-
-        #first_name = ' '.join(name_pieces[:-1])
-        #last_name = name_pieces[-1]
-
         first_name = first
         last_name = last
 
@@ -109,21 +72,6 @@ def employee(request, first=False, last=False, employee=False):
     t = get_template('employee.html')
     c = RequestContext(request, context)
     return HttpResponse(t.render(c))
-
-
-def gen_stars(rating, num_votes):
-    if num_votes < 5:
-        return ['empty'] * 5
-    stars = []
-    for i in range(0,5):
-        next = rating - i
-        if (next >= 1) or (next >= 0.75):
-            stars.append('full')
-        elif next >= 0.25:
-            stars.append('half')
-        else:
-            stars.append('empty')
-    return stars
 
 def search(request):
 
@@ -194,10 +142,6 @@ def search(request):
 
     num_pages = count / ITEMS_PER_PAGE
 
-    #faculties = Faculty.objects.only("full_name", "id")
-    #departments = Department.objects.only("name", "id")
-    #positions = Position.objects.only("name", "id")
-
     context = {
         'title': "Search results - UBC Salary List",
         'query_symbol': query_symbol,
@@ -241,20 +185,6 @@ def api_search(request):
 
     return HttpResponse(json.dumps(data), content_type="application/json")
 
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
-
-def quantify(seq, pred=None):
-    return sum(imap(pred, seq))
-
-def in_range(i, start, end):
-    return i >= start and i <= end
-
 def api_faculty(request, id):
 
     interval = 10000
@@ -288,10 +218,10 @@ def api_vote(request, id):
         'ip': ip
     }
 
-    #votes = Vote.objects.filter(ip_address=ip, employee=id).count()
+    votes = Vote.objects.filter(ip_address=ip, employee=id).count()
 
-    #if votes > 0:
-    #    return HttpResponse(json.dumps(response), content_type="application/json")
+    if votes > 0:
+        return HttpResponse(json.dumps(response), content_type="application/json")
 
     rating = request.GET.get('rating', False)
 
