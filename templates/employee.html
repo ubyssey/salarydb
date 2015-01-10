@@ -31,6 +31,8 @@
                     <div class="message">
                     {% if employee.num_ratings < 5 %}
                         {{ ratings_needed }} more votes needed
+                    {% else %}
+                        {{ employee.num_ratings }} votes
                     {% endif %}
                     </div>
                 </div>
