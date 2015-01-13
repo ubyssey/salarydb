@@ -209,6 +209,30 @@ def api_faculty(request, id):
 
     return HttpResponse(json.dumps(data), content_type="application/json")
 
+def api_department(request, id):
+
+    interval = 10000
+
+    employees = Employee.objects.filter(department_id=id).values_list('remuneration', flat=True).order_by('remuneration')
+    start = int(round(employees[0] / interval) * interval)
+    end = employees[len(employees)-1]
+
+    current = start
+
+    data = {
+        'points': [],
+        'salaries': map(int, employees),
+    }
+
+    while (current - interval) < end:
+        data['points'].append({
+            'x': current,
+            'y': quantify(employees, lambda i: in_range(i, current, current+interval))
+        })
+        current += interval
+
+    return HttpResponse(json.dumps(data), content_type="application/json")
+
 def api_vote(request, id):
 
     ip = get_client_ip(request)

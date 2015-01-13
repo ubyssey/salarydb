@@ -1,4 +1,5 @@
 select
+  f.id,
 	count(*) as emp_count,
     avg(e.remuneration) as avg_salary,
     f.short_name

@@ -1,3 +1,5 @@
+from itertools import imap
+
 def get_page_range(page, num_pages, count):
 
     all_pages = range(num_pages+1)[1:]

@@ -48,12 +48,6 @@ class Employee(Model):
             'last_name': self.last_name.lower()
         }
 
-
-class Salary(Model):
-    year = IntegerField()
-    amount = IntegerField()
-    employee = ForeignKey('Employee')
-
 class Position(Model):
     name = CharField(max_length=255, blank=True, null=True)
     raw_name = CharField(max_length=255)
@@ -67,6 +61,7 @@ class Position(Model):
 class Faculty(Model):
     full_name = CharField(max_length=255)
     short_name = CharField(max_length=255)
+    campus = CharField(max_length=255, choices=[('van', 'Vancouver'), ('oka', 'Okanagan')], blank=True, null=True)
 
     def __str__(self):
         return self.full_name
