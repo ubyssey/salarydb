@@ -4,6 +4,9 @@ employees = Employee.objects.all()
 sauder = Faculty.objects.get(short_name='Sauder')
 law = Faculty.objects.get(short_name='Law')
 pharmacy = Faculty.objects.get(short_name='Pharmacy')
+eng_ubco = Faculty.objects.get(id=20)
+creative_studies = Faculty.objects.get(id=14)
+health = Faculty.objects.get(id=10)
 
 for e in employees:
     if e.department:
@@ -11,6 +14,14 @@ for e in employees:
             e.faculty = e.department.faculty
             e.save()
             print e.faculty
+        if e.faculty and e.faculty.id == 18: # Creative Studies
+            e.faculty = creative_studies
+            e.save()
+            print "CREATIVE STUDIES"
+        elif e.faculty and e.faculty.id == 17: # Health
+            e.faculty = health
+            e.save()
+            print "HEALTH"
         if e.department.name == 'The Sauder School Of Business':
             e.department = None
             e.faculty = sauder
@@ -21,10 +32,10 @@ for e in employees:
             e.faculty = pharmacy
             e.save()
             print "PHARMACY"
-        elif e.department.id = 32:
+        elif e.department.id == 32:
             e.department = None
-            e.faculty.id =
-
+            e.faculty = eng_ubco
+            e.save()
         elif e.department.name == 'Faculty Of Law':
             e.department = None
             e.faculty = law
