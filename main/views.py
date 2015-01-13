@@ -20,7 +20,7 @@ def landing(request):
     }
 
     context = {
-        'title': 'The Ubyssey - UBC Salary List',
+        'title': 'UBC Salary List - The Ubyssey',
         'base_url': settings.BASE_URL,
         'og': og,
     }
