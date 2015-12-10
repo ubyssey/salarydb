@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.template.loader import get_template
 from django.template import RequestContext
@@ -7,11 +7,9 @@ from django.conf import settings
 
 import json
 from urllib import urlencode
-from itertools import imap
 
 from helpers import *
 from .models import Employee, Vote, Faculty, Department, Position
-from .templatetags.main_extras import name_to_url
 
 def landing(request):
 
@@ -73,17 +71,39 @@ def employee(request, first=False, last=False, employee=False):
     c = RequestContext(request, context)
     return HttpResponse(t.render(c))
 
+
+def _filter_filters(model, filters):
+    """Returns queryset of `model` objects filtered by `filters`.
+
+    Example: _filter_filters(Position, {'faculty_id':5}) will return all and only the
+    Positions existing in the Faculty of Medicine (id=5).
+    """
+    isactive = lambda q: q != 0
+
+    this = model.__name__.lower() + '_id'
+
+    # Filter through reverse foreign keys on Employee.
+    return model.objects.filter(**{
+        'employee__{}__id'.format(k.split('_')[0]): v
+        for k, v in filters.items()
+        if k != this and isactive(v)
+    }).distinct()
+
+    # examples for Position:
+    # eg. filters = {'faculty_id': 5}
+    # >> Position.objects.filter(employee__faculty__id=5)
+    # eg. filters = {'faculty_id': 5, 'department_id': 16, 'position_id': 2}
+    # >> Position.objects.filter(employee__faculty__id=5,
+    #                            employee__department__id=16)
+
+
 def search(request):
 
     ITEMS_PER_PAGE = 20
 
     page = int(request.GET.get('pg', 1))
 
-    if page:
-        page = int(page)
-        if page < 1:
-            page = 1
-    else:
+    if page < 1:
         page = 1
 
     start = (page - 1) * ITEMS_PER_PAGE
@@ -91,8 +111,7 @@ def search(request):
 
     q = request.GET.get('q', False)
 
-    params = dict()
-
+    params = {}
     args = []
 
     if q:
@@ -156,6 +175,9 @@ def search(request):
         'pages': num_pages,
         'page_range': get_page_range(page, num_pages, 10),
         'filters': filters,
+        'filter_faculties': _filter_filters(Faculty, filters),
+        'filter_departments': _filter_filters(Department, filters),
+        'filter_positions': _filter_filters(Position, filters),
     }
 
     t = get_template('search.html')
@@ -164,12 +186,10 @@ def search(request):
 
 def api_search(request):
 
-    q = request.GET.get('q', False)
+    q = request.GET.get('q', '')
 
-    args = []
-    words = q.split()
-    for word in words:
-        args.append(Q(first_name__icontains=word) | Q(last_name__icontains=word))
+    args = [Q(first_name__icontains=word) | Q(last_name__icontains=word)
+            for word in q.split()]
 
     results = Employee.objects.filter(*args).order_by('last_name')[:10]
 
