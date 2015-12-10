@@ -79,11 +79,7 @@ def search(request):
 
     page = int(request.GET.get('pg', 1))
 
-    if page:
-        page = int(page)
-        if page < 1:
-            page = 1
-    else:
+    if page < 1:
         page = 1
 
     start = (page - 1) * ITEMS_PER_PAGE
@@ -91,8 +87,7 @@ def search(request):
 
     q = request.GET.get('q', False)
 
-    params = dict()
-
+    params = {}
     args = []
 
     if q:
@@ -164,12 +159,10 @@ def search(request):
 
 def api_search(request):
 
-    q = request.GET.get('q', False)
+    q = request.GET.get('q', '')
 
-    args = []
-    words = q.split()
-    for word in words:
-        args.append(Q(first_name__icontains=word) | Q(last_name__icontains=word))
+    args = [Q(first_name__icontains=word) | Q(last_name__icontains=word)
+            for word in q.split()]
 
     results = Employee.objects.filter(*args).order_by('last_name')[:10]
 
