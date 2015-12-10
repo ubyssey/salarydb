@@ -80,15 +80,13 @@ def _filter_filters(model, filters):
     """
     isactive = lambda q: q != 0
 
-    filters = {k: v for k, v in filters.items()
-               if isactive(v)}
     this = model.__name__.lower() + '_id'
 
     # Filter through reverse foreign keys on Employee.
     return model.objects.filter(**{
         'employee__{}__id'.format(k.split('_')[0]): v
         for k, v in filters.items()
-        if k != this
+        if k != this and isactive(v)
     }).distinct()
 
     # examples for Position:
