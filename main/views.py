@@ -73,6 +73,34 @@ def employee(request, first=False, last=False, employee=False):
     c = RequestContext(request, context)
     return HttpResponse(t.render(c))
 
+
+def _filter_filters(model, filters):
+    """Returns queryset of `model` objects filtered by `filters`.
+
+    Example: _filter_filters(Position, {'faculty_id':5}) will return all and only the
+    Positions existing in the Faculty of Medicine (id=5).
+    """
+    isactive = lambda q: q != 0
+
+    filters = {k: v for k, v in filters.items()
+               if isactive(v)}
+    this = model.__name__.lower() + '_id'
+
+    # Filter through reverse foreign keys on Employee.
+    return model.objects.filter(**{
+        'employee__{}__id'.format(k.split('_')[0]): v
+        for k, v in filters.items()
+        if k != this
+    }).distinct()
+
+    # examples for Position:
+    # eg. filters = {'faculty_id': 5}
+    # >> Position.objects.filter(employee__faculty__id=5)
+    # eg. filters = {'faculty_id': 5, 'department_id': 16, 'position_id': 2}
+    # >> Position.objects.filter(employee__faculty__id=5,
+    #                            employee__department__id=16)
+
+
 def search(request):
 
     ITEMS_PER_PAGE = 20
@@ -151,6 +179,9 @@ def search(request):
         'pages': num_pages,
         'page_range': get_page_range(page, num_pages, 10),
         'filters': filters,
+        'filter_faculties': _filter_filters(Faculty, filters),
+        'filter_departments': _filter_filters(Department, filters),
+        'filter_positions': _filter_filters(Position, filters),
     }
 
     t = get_template('search.html')
