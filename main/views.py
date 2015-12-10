@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.template.loader import get_template
 from django.template import RequestContext
@@ -7,11 +7,9 @@ from django.conf import settings
 
 import json
 from urllib import urlencode
-from itertools import imap
 
 from helpers import *
 from .models import Employee, Vote, Faculty, Department, Position
-from .templatetags.main_extras import name_to_url
 
 def landing(request):
 
