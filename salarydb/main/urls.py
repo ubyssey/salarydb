@@ -6,7 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', 'main.views.landing', name='landing'),
+    url(r'^$', views.landing, name='landing'),
     url(r'^api/search/?$', views.api_search),
     url(r'^api/vote/(\d*)/?$', views.api_vote),
     url(r'^api/faculty/(\d*)/?$', views.api_faculty),

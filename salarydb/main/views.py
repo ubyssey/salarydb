@@ -135,7 +135,7 @@ def search(request):
 
     if len(results) == 1:
         e = results[0]
-        return redirect('main.views.employee', e.url()['first_name'], e.url()['last_name'])
+        return redirect('salarydb.main.views.employee', e.url()['first_name'], e.url()['last_name'])
 
     count = Employee.objects.filter(*args).count()
 
