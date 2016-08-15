@@ -10,28 +10,45 @@ data = []
 
 for f in faculties:
     data.append(
-        { 'faculty': f.short_name,
-          'value': float(f.avg_salary)}
+        {
+            'faculty': f.short_name,
+            'id': f.id,
+            'value': float(f.avg_salary)
+        }
     )
 
-with open('data/faculty_average.json', 'w') as outfile:
-    json.dump(data, outfile)
+response = {
+    'values': data,
+    'max': data[0]['value']
+}
 
+with open('data/faculty_average.json', 'w') as outfile:
+    json.dump(response, outfile)
 
 faculties = Faculty.objects.all()
 
 data = []
 
 for f in faculties:
-    e = Employee.objects.filter(faculty=f).order_by("-remuneration")[0]
-    data.append(
-        { 'faculty': f.short_name,
-          'employee': e.full_name(),
-          'value': e.remuneration}
-    )
+    employees = Employee.objects.filter(faculty=f).order_by("-remuneration")
+    if employees:
+        e = employees[0]
+        data.append(
+            {
+                'faculty': f.short_name,
+                'employee': e.full_name(),
+                'url': e.url()['first_name'] + "-" + e.url()['last_name'],
+                'value': e.remuneration}
+        )
 
 sorted_data = sorted(data, key=lambda k: k['value'])
 sorted_data.reverse()
 
-with open('data/faculty_higest.json', 'w') as outfile:
-    json.dump(sorted_data, outfile)
+response = {
+    'values': sorted_data,
+    'max': sorted_data[0]['value']
+}
+
+
+with open('data/faculty_highest.json', 'w') as outfile:
+    json.dump(response, outfile)
