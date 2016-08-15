@@ -3,3 +3,8 @@ os: linux
 files:
   - source: /
     destination: /var/webapps/salarydb/
+hooks:
+  ApplicationStop:
+    - location: _scripts/salarydb_stop.sh
+  ApplicationStart:
+    - location: _scripts/salarydb_start.sh

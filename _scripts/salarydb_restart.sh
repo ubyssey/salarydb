@@ -1,4 +1,4 @@
 #!/bin/bash
 
-./salarydb_stop.sh
-./salarydb.start.sh
+${BASH_SOURCE%/*}/salarydb_stop.sh
+${BASH_SOURCE%/*}/salarydb_start.sh
