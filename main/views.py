@@ -29,13 +29,15 @@ def landing(request):
     c = RequestContext(request, context)
     return HttpResponse(t.render(c))
 
-def employee(request, first=False, last=False, employee=False):
+def employee(request, first=False, last=False, slug = False, employee=False):
 
     if not employee:
-        first_name = first
-        last_name = last
-
-        employee = Employee.objects.get(first_name__icontains=first_name, last_name__iexact=last_name)
+        if slug:
+            employee = Employee.objects.get(slug=slug)
+        else:
+            first_name = first
+            last_name = last
+            employee = Employee.objects.get(first_name__icontains=first_name, last_name__iexact=last_name)
 
     rank = {
         'overall': {},

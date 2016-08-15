@@ -11,6 +11,8 @@ class Employee(Model):
     remuneration = IntegerField()
     expenses = IntegerField()
 
+    slug = CharField(max_length=255)
+
     rating = IntegerField(default=0)
     num_ratings = IntegerField(default=0)
 
