@@ -1,5 +1,6 @@
 import csv
-from main.models import Employee, Position, Faculty, Department
+
+from salarydb.main.models import Employee, Position, Faculty, Department
 
 def get_department(raw_name):
     try:
@@ -26,7 +27,7 @@ def make_int(value):
     value = value.replace(',', '')
     return int(value)
 
-with open('scripts/assets/salaries.csv', 'U') as salaries:
+with open('data/input/salaries.csv', 'U') as salaries:
     reader = csv.reader(salaries)
     for name, position, department, remuneration, expenses in reader:
 

@@ -1,5 +1,6 @@
 import json
-from main.models import Employee, Position, Faculty, Department
+
+from salarydb.main.models import Employee, Position, Faculty, Department
 
 salaries = Employee.objects.values_list('remuneration', flat=True).order_by('remuneration')
 
@@ -24,5 +25,5 @@ while (current - interval) < end:
     })
     current += interval
 
-with open('data/salaries.json', 'w') as outfile:
+with open('output/salaries.json', 'w') as outfile:
     json.dump(data, outfile)

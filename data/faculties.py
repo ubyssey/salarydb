@@ -1,5 +1,5 @@
 import json, operator
-from main.models import Employee, Position, Faculty, Department
+from salarydb.main.models import Employee, Position, Faculty, Department
 
 f = open("sql/avg_salary_by_faculty.sql")
 sql = f.read()
@@ -22,7 +22,7 @@ response = {
     'max': data[0]['value']
 }
 
-with open('data/faculty_average.json', 'w') as outfile:
+with open('output/faculty_average.json', 'w') as outfile:
     json.dump(response, outfile)
 
 faculties = Faculty.objects.all()
@@ -50,5 +50,5 @@ response = {
 }
 
 
-with open('data/faculty_highest.json', 'w') as outfile:
+with open('output/faculty_highest.json', 'w') as outfile:
     json.dump(response, outfile)

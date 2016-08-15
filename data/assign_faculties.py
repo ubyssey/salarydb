@@ -1,4 +1,4 @@
-from main.models import Employee, Faculty
+from salarydb.main.models import Employee, Faculty
 
 employees = Employee.objects.all()
 sauder = Faculty.objects.get(short_name='Sauder')
@@ -41,4 +41,3 @@ for e in employees:
             e.faculty = law
             e.save()
             print "LAW"
-

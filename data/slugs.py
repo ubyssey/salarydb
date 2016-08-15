@@ -1,4 +1,4 @@
-from main.models import Employee
+from salarydb.main.models import Employee
 
 employees = Employee.objects.all()
 

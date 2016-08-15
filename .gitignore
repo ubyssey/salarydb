@@ -1,5 +1,8 @@
-salarydb/production/
-.idea/
-/static/
-/scripts/data/
 *.pyc
+
+/salarydb/production/
+
+/static/
+
+/data/input/
+/data/output/
