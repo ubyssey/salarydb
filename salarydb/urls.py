@@ -1,5 +1,3 @@
 from django.conf.urls import patterns, include, url
 
-urlpatterns = patterns('',
-    url(r'^', include('salarydb.main.urls')),
-)
+from salarydb.main.urls import urlpatterns
