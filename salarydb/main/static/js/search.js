@@ -42,7 +42,7 @@ $(function(){
 
     $( "#search-field" ).autocomplete({
             source: function( request, response ) {
-            $.get(BASE_URL+'/api/search/', { q: request.term }, function(data){
+            $.get(BASE_URL + 'api/search/', { q: request.term }, function(data){
             response(data);
         });
         },

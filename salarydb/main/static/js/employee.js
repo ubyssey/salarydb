@@ -24,7 +24,7 @@ $('.star').click(function(){
     if (!rated){
         var rating = $(this).data("rating");
         rated = true;
-        $.getJSON(BASE_URL+'/api/vote/'+ID+'/', { rating: rating }, function(data){
+        $.getJSON(BASE_URL + 'api/vote/'+ID+'/', { rating: rating }, function(data){
             if(data.success){
                 $('.rating .message').text("Thanks for voting");
             } else {
@@ -178,5 +178,5 @@ if(FACULTY){
         .attr("viewBox", "0 0 " + (width + margin.left + margin.right) + " " + (height + margin.top + margin.bottom))
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    drawGraph(BASE_URL+"/api/faculty/"+FACULTY, faculty);
+    drawGraph(BASE_URL + "api/faculty/"+FACULTY, faculty);
 }
