@@ -31,8 +31,6 @@ exec bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
   --workers $NUM_WORKERS \
   --bind=unix:$SOCKFILE \
   --log-level=debug \
-  --log-file $LOGFILE \
-  --daemon \
-  --pid $PIDFILE
-
+  --log-file $LOGFILE
+  
 echo "Successfully started $NAME"
