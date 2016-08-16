@@ -1,3 +1,7 @@
+import json
+from urllib import urlencode
+from itertools import imap
+
 from django.shortcuts import render_to_response, redirect
 from django.http import HttpResponse
 from django.template.loader import get_template
@@ -5,13 +9,9 @@ from django.template import RequestContext
 from django.db.models import Q
 from django.conf import settings
 
-import json
-from urllib import urlencode
-from itertools import imap
-
-from helpers import *
-from .models import Employee, Vote, Faculty, Department, Position
-from .templatetags.main_extras import name_to_url
+from salarydb.helpers import *
+from salarydb.models import Employee, Vote, Faculty, Department, Position
+from salarydb.templatetags.main_extras import name_to_url
 
 def landing(request):
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Employee, Position, Faculty, Department
+from salarydb.models import Employee, Position, Faculty, Department
 
 class PositionInline(admin.StackedInline):
     model = Position

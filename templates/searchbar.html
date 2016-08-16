@@ -1,5 +1,5 @@
 <div class="search-bar padded">
-    <form id="search-form" action="{% url 'main.views.search' %}" method="GET">
+    <form id="search-form" action="{% url 'salarydb.views.search' %}" method="GET">
         <input id="search-field" name="q" value="{% if q %}{{ q }}{% endif %}" placeholder="Search by name" type="text"/>
         <div class="search-dropdown"></div>
     </form>

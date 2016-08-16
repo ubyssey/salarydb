@@ -20,7 +20,7 @@
         <div class="search-header" data-order="salary">Salary</div>
     </div>
     {% for employee in results %}
-        <a class="employee-result" href="{% url 'main.views.employee' employee.url.first_name employee.url.last_name %}">
+        <a class="employee-result" href="{% url 'salarydb.views.employee' employee.url.first_name employee.url.last_name %}">
             <div class="employee-info"><strong>{{ employee.first_name }} {{ employee.last_name }}</strong></div>
             <div class="employee-info position">{{ employee.position.name }}</div>
             <div class="employee-info">
