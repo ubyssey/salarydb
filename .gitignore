@@ -1,6 +1,7 @@
 *.pyc
 
-/salarydb/production/
+/_settings/
+settings.py
 
 /static/
 
