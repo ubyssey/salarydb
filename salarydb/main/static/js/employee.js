@@ -168,7 +168,7 @@ var drawGraph = function(url, svg) {
     });
 }
 
-drawGraph(BASE_URL+"/static/data/salaries.json", svg);
+drawGraph(STATIC_URL + "data/salaries.json", svg);
 
 if(FACULTY){
     var faculty = d3.select('.chart').append("svg")
@@ -180,5 +180,3 @@ if(FACULTY){
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     drawGraph(BASE_URL+"/api/faculty/"+FACULTY, faculty);
 }
-
-

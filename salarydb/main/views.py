@@ -22,6 +22,7 @@ def landing(request):
     context = {
         'title': 'UBC Salary List - The Ubyssey',
         'base_url': settings.BASE_URL,
+        'static_url': settings.STATIC_URL,
         'og': og,
     }
 
@@ -62,6 +63,7 @@ def employee(request, first=False, last=False, slug = False, employee=False):
 
     context = {
         'base_url': settings.BASE_URL,
+        'static_url': settings.STATIC_URL,
         'title': employee.full_name() + " - UBC Salary List",
         'og': og,
         'rank': rank,
@@ -149,6 +151,7 @@ def search(request):
         'query_symbol': query_symbol,
         'query_string': query_string,
         'base_url': settings.BASE_URL,
+        'static_url': settings.STATIC_URL,
         'results': results,
         'q': q,
         'count': count,
