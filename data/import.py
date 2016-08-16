@@ -1,6 +1,6 @@
 import csv
 
-from salarydb.main.models import Employee, Position, Faculty, Department
+from salarydb.models import Employee, Position, Faculty, Department
 
 def get_department(raw_name):
     try:

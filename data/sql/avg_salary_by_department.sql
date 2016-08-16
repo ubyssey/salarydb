@@ -3,8 +3,8 @@ select
     avg(e.remuneration) as avg_salary,
     d.name as dept_name
 from
-	salarydb.main_employee as e
-join salarydb.main_department d on (e.department_id = d.id)
+	salarydb.salarydb_employee as e
+join salarydb.salarydb_department d on (e.department_id = d.id)
 group by
 	d.id
 order by

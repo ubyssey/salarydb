@@ -4,7 +4,7 @@ import sys
 reload(sys)  # Reload does the trick!
 sys.setdefaultencoding('UTF8')
 
-from salarydb.main.models import Employee, Faculty
+from salarydb.models import Employee, Faculty
 
 employees = Employee.objects.all()
 

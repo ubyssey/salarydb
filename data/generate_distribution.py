@@ -1,6 +1,6 @@
 import json
 
-from salarydb.main.models import Employee, Position, Faculty, Department
+from salarydb.models import Employee, Position, Faculty, Department
 
 salaries = Employee.objects.values_list('remuneration', flat=True).order_by('remuneration')
 

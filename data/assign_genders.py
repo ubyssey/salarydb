@@ -1,4 +1,4 @@
-from salarydb.main.models import Employee
+from salarydb.models import Employee
 
 with open('output/genders.txt', 'U') as file:
     for f in file:

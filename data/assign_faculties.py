@@ -1,4 +1,4 @@
-from salarydb.main.models import Employee, Faculty
+from salarydb.models import Employee, Faculty
 
 employees = Employee.objects.all()
 sauder = Faculty.objects.get(short_name='Sauder')

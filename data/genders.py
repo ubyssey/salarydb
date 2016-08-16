@@ -1,6 +1,6 @@
 import sexmachine.detector as gender
 
-from salarydb.main.models import Employee
+from salarydb.models import Employee
 
 d = gender.Detector()
 

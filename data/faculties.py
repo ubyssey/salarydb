@@ -1,5 +1,5 @@
 import json, operator
-from salarydb.main.models import Employee, Position, Faculty, Department
+from salarydb.models import Employee, Position, Faculty, Department
 
 f = open("sql/avg_salary_by_faculty.sql")
 sql = f.read()
