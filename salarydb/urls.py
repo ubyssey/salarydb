@@ -17,4 +17,7 @@ salarydb_patterns = [
     url(r'^admin/', include(admin.site.urls))
 ]
 
-urlpatterns = [url(r'^salaries/', include(salarydb_patterns))]
+urlpatterns = [
+    url(r'^', include(salarydb_patterns)),
+    url(r'^salaries/', include(salarydb_patterns))
+]
