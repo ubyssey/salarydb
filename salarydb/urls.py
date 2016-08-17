@@ -6,13 +6,13 @@ import salarydb.views as views
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', views.landing, name='landing'),
-    url(r'^api/search/?$', views.api_search),
-    url(r'^api/vote/(\d*)/?$', views.api_vote),
-    url(r'^api/faculty/(\d*)/?$', views.api_faculty),
-    url(r'^employee/(?P<first>[a-zA-Z]*)-(?P<last>[a-zA-Z-\']*)/?$', views.employee),
+    url(r'^salaries/?$', views.landing, name='landing'),
+    url(r'^salaries/api/search/?$', views.api_search),
+    url(r'^salaries/api/vote/(\d*)/?$', views.api_vote),
+    url(r'^salaries/api/faculty/(\d*)/?$', views.api_faculty),
+    url(r'^salaries/employee/(?P<first>[a-zA-Z]*)-(?P<last>[a-zA-Z-\']*)/?$', views.employee),
     #url(r'^employee/(?P<slug>[a-zA-Z-\']*)/?$', views.employee),
-    url(r'^search/?$', views.search),
-    url(r'^search/(\d*)/?$', views.search),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^salaries/search/?$', views.search),
+    url(r'^salaries/search/(\d*)/?$', views.search),
+    url(r'^salaries/admin/', include(admin.site.urls)),
 )
