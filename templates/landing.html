@@ -16,27 +16,27 @@
                 </a>
                 <div class="dropdown-results chosen-drop">
                     <ul class="chosen-results">
-                        <li class="active-result" ><a href="search/?faculty_id=3">Faculty of Applied Science</a></li>
-                        <li class="active-result" data-option-array-index="2"><a href="search/?faculty_id=4">Faculty of Science</a></li>
-                        <li class="active-result" data-option-array-index="3"><a href="search/?faculty_id=5">Faculty of Medicine</a></li>
-                        <li class="active-result" data-option-array-index="4"><a href="search/?faculty_id=6">Faculty of Education</a></li>
-                        <li class="active-result" data-option-array-index="5"><a href="search/?faculty_id=7">Faculty of Arts</a></li>
-                        <li class="active-result" data-option-array-index="6"><a href="search/?faculty_id=8">Faculty of Law</a></li>
-                        <li class="active-result" data-option-array-index="7"><a href="search/?faculty_id=9">Barber Arts and Sciences</a></li>
-                        <li class="active-result" data-option-array-index="8"><a href="search/?faculty_id=10">Faculty of Health and Social Development</a></li>
-                        <li class="active-result" data-option-array-index="9"><a href="search/?faculty_id=11">Faculty of Forestry</a></li>
-                        <li class="active-result" data-option-array-index="10"><a href="search/?faculty_id=12">Faculty of Land and Food Systems</a></li>
-                        <li class="active-result" data-option-array-index="11"><a href="search/?faculty_id=13">Faculty of Dentistry</a></li>
-                        <li class="active-result" data-option-array-index="12"><a href="search/?faculty_id=14">Faculty of Creative and Critical Studies</a></li>
-                        <li class="active-result" data-option-array-index="13"><a href="search/?faculty_id=15">Sauder School of Business</a></li>
-                        <li class="active-result" data-option-array-index="14"><a href="search/?faculty_id=16">Faculty of Management</a></li>
-                        <li class="active-result" data-option-array-index="15"><a href="search/?faculty_id=17">Faculty of Health</a></li>
-                        <li class="active-result" data-option-array-index="16"><a href="search/?faculty_id=18">Faculty of Creative Studies</a></li>
-                        <li class="active-result" data-option-array-index="17"><a href="search/?faculty_id=19">Faculty of Pharmaceutical Sciences</a></li>
+                        <li class="active-result" ><a href="{% url 'salarydb.views.search' %}?faculty_id=3">Faculty of Applied Science</a></li>
+                        <li class="active-result" data-option-array-index="2"><a href="{% url 'salarydb.views.search' %}?faculty_id=4">Faculty of Science</a></li>
+                        <li class="active-result" data-option-array-index="3"><a href="{% url 'salarydb.views.search' %}?faculty_id=5">Faculty of Medicine</a></li>
+                        <li class="active-result" data-option-array-index="4"><a href="{% url 'salarydb.views.search' %}?faculty_id=6">Faculty of Education</a></li>
+                        <li class="active-result" data-option-array-index="5"><a href="{% url 'salarydb.views.search' %}?faculty_id=7">Faculty of Arts</a></li>
+                        <li class="active-result" data-option-array-index="6"><a href="{% url 'salarydb.views.search' %}?faculty_id=8">Faculty of Law</a></li>
+                        <li class="active-result" data-option-array-index="7"><a href="{% url 'salarydb.views.search' %}?faculty_id=9">Barber Arts and Sciences</a></li>
+                        <li class="active-result" data-option-array-index="8"><a href="{% url 'salarydb.views.search' %}?faculty_id=10">Faculty of Health and Social Development</a></li>
+                        <li class="active-result" data-option-array-index="9"><a href="{% url 'salarydb.views.search' %}?faculty_id=11">Faculty of Forestry</a></li>
+                        <li class="active-result" data-option-array-index="10"><a href="{% url 'salarydb.views.search' %}?faculty_id=12">Faculty of Land and Food Systems</a></li>
+                        <li class="active-result" data-option-array-index="11"><a href="{% url 'salarydb.views.search' %}?faculty_id=13">Faculty of Dentistry</a></li>
+                        <li class="active-result" data-option-array-index="12"><a href="{% url 'salarydb.views.search' %}?faculty_id=14">Faculty of Creative and Critical Studies</a></li>
+                        <li class="active-result" data-option-array-index="13"><a href="{% url 'salarydb.views.search' %}?faculty_id=15">Sauder School of Business</a></li>
+                        <li class="active-result" data-option-array-index="14"><a href="{% url 'salarydb.views.search' %}?faculty_id=16">Faculty of Management</a></li>
+                        <li class="active-result" data-option-array-index="15"><a href="{% url 'salarydb.views.search' %}?faculty_id=17">Faculty of Health</a></li>
+                        <li class="active-result" data-option-array-index="16"><a href="{% url 'salarydb.views.search' %}?faculty_id=18">Faculty of Creative Studies</a></li>
+                        <li class="active-result" data-option-array-index="17"><a href="{% url 'salarydb.views.search' %}?faculty_id=19">Faculty of Pharmaceutical Sciences</a></li>
                     </ul>
                 </div>
             </div>
-            <a href="{{ base_url }}/search/" class="button">
+            <a href="{% url 'salarydb.views.search' %}" class="button">
                 View full list
             </a>
         </div>

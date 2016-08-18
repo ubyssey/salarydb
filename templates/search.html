@@ -37,14 +37,14 @@
     <div class="page-listing">
     {% if pages > 1 %}
         {% if prev_page %}
-                <a class="page" href="{{ query_string }}{{ query_symbol }}pg={{ prev_page }}" ><i class="fa fa-chevron-left"></i> &nbsp; Prev</a>
+                <a class="page" href="{% url 'salarydb.views.search' %}{{ query_string }}{{ query_symbol }}pg={{ prev_page }}" ><i class="fa fa-chevron-left"></i> &nbsp; Prev</a>
         {% endif %}
         <div class="hide-mobile page-numbers">
         {% for page in page_range %}
             {% if page == cur_page %}
                 <a class="cur-page">{{ page }}</a>
             {% else %}
-                <a class="page" href="{{ query_string }}{{ query_symbol }}pg={{ page }}">{{ page }}</a>
+                <a class="page" href="{% url 'salarydb.views.search' %}{{ query_string }}{{ query_symbol }}pg={{ page }}">{{ page }}</a>
             {% endif %}
         {% endfor %}
             <div class="cur-page">
@@ -55,7 +55,7 @@
             Page {{ cur_page }} of {{ pages }}
         </div>
         {% if next_page %}
-                <a class="page" href="{{ query_string }}{{ query_symbol }}pg={{ next_page }}">Next &nbsp; <i class="fa fa-chevron-right"></i></a>
+                <a class="page" href="{% url 'salarydb.views.search' %}{{ query_string }}{{ query_symbol }}pg={{ next_page }}">Next &nbsp; <i class="fa fa-chevron-right"></i></a>
         {% endif %}
     {% endif %}
     </div>
