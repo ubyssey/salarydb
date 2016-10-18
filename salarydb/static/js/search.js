@@ -28,7 +28,7 @@ $(function(){
         } else {
             delete parsed[filter];
         }
-        window.location.href = BASE_URL + "/search/?" + queryString.stringify(parsed);
+        window.location.href = BASE_URL + "search/?" + queryString.stringify(parsed);
     });
 
 
@@ -67,7 +67,7 @@ $(function(){
             .attr( "data-value", item.name )
             .append(
                 $("<a>")
-                    .attr("href", BASE_URL+"/employee/"+item.url)
+                    .attr("href", BASE_URL+"employee/"+item.url)
                     .append(item.name)
                 )
             .appendTo( ul );
