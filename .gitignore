@@ -1,6 +1,5 @@
 *.pyc
 
-/_settings/
 settings.py
 
 /static/
