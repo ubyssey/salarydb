@@ -1,2 +1,2 @@
+django==1.11
 mysql-python
-django==1.6.11
