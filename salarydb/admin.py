@@ -1,15 +1,14 @@
 from django.contrib import admin
-from salarydb.models import Employee, Position, Faculty, Department
+from salarydb.models import Employee, Salary, Position, Faculty, Department
 
-class PositionInline(admin.StackedInline):
-    model = Position
-    max_num = 1
+class SalaryInline(admin.StackedInline):
+    model = Salary
     extra = 1
 
 class EmployeeAdmin(admin.ModelAdmin):
-    inlines = [PositionInline,]
+    inlines = [SalaryInline,]
 
-admin.site.register(Employee)
+admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(Position)
 admin.site.register(Faculty)
 admin.site.register(Department)
